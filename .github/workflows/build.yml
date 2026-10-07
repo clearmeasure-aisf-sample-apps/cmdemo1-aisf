@@ -41,8 +41,10 @@ jobs:
       - name: Build the image
         env:
           BUILD_SECRETS: ${{ vars.IMAGE_BUILD_SECRETS }}
-          # Only an opted-in repository hands this step its secrets; the step keeps the named ones and drops the rest.
-          SECRETS_JSON: ${{ vars.IMAGE_BUILD_SECRETS != '' && toJSON(secrets) || '{}' }}
+          # The one secret this image's build reads, by name. GitHub holds a run that hands a step the whole secrets
+          # context (toJSON(secrets)) as "action required" before any job starts, so the kit's generic line is
+          # replaced by the named secret; add another secret here when IMAGE_BUILD_SECRETS names one.
+          SECRETS_JSON: ${{ vars.IMAGE_BUILD_SECRETS != '' && format('{{"AISF_PACKAGES_TOKEN":{0}}}', toJSON(secrets.AISF_PACKAGES_TOKEN)) || '{}' }}
           FROM_FORK: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
         run: |
           set -euo pipefail
