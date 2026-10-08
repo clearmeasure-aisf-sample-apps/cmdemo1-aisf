@@ -18,15 +18,33 @@ is only a working copy, so carry any change made there back here.
 
 | File | Purpose |
 |---|---|
-| `Program.cs` | `AddAisfFactory(factory => factory.UseGitHubWorkTracking().AddCursorWorker())` |
+| `Program.cs` | `AddAisfFactory(factory => factory.UseGitHubWorkTracking().AddCursorWorker())`, and `GET /_build` |
 | `Factory.csproj` | Two references: `Aisf.Hosting`, and the messaging provider `Aisf.Messaging.NServiceBus` |
 | `appsettings.json` | The board, the three columns the factory works, the CI checks that gate a pull request |
 | `NuGet.Config` | nuget.org plus the private `Aisf.*` feed |
 | `Dockerfile` | The image: port 8080, health at `/health`, non-root |
+| `scripts/write-build-facts.sh` | Run by the image build: writes `build-facts.json`, which `/_build` answers |
 | `deployable.json` | The entry for `add-demo-deployable.ps1 -Definition` (kit PR #1) |
 
 To change a Cursor prompt, add `Prompts/cursor/cursor-<column>.md` here; it replaces the packaged
 one of the same name. Give those files `CopyToOutputDirectory` in `Factory.csproj`.
+
+## What the container was built from
+
+`GET /_build` answers without sign-in, from any origin, with the document every app of the system serves
+(the same property names; what does not apply is `null`):
+
+- `version`, `commit`, `commitUrl`, `buildUrl`: the Build workflow passes them to the image build as the
+  build arguments `VERSION`, `COMMIT`, `REPOSITORY` and `RUN_ID`, which the `Dockerfile` declares;
+- `builtAt`: when the image was built;
+- `code`: non-blank lines per language of the source files the image is built from (the build context);
+- `tests`, `coverage`, `complexity`, `crap`, `analysis`: `null`. This repository composes packages and has
+  no tests or analysis of its own;
+- `packages`: name and version of each `Aisf.*` package the restore resolved. `Factory.csproj` references
+  `0.1.0-alpha.*`, so this is what says which factory a container runs.
+
+The `Dockerfile` runs `scripts/write-build-facts.sh` after the publish, and the file lands next to the
+executable. A build without it (`dotnet run`, `dotnet publish`) answers 404.
 
 ## Run it locally
 

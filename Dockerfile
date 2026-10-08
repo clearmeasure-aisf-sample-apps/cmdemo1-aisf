@@ -11,6 +11,14 @@ RUN --mount=type=secret,id=aisf_packages_token \
     dotnet restore Factory.csproj
 COPY . .
 RUN dotnet publish Factory.csproj -c Release -o /app/publish --no-restore
+# What the image was built from, for GET /_build. The Build workflow passes these four when it builds the image; a
+# local build has none and the file says null. The script adds the Aisf.* versions the restore resolved. Declared
+# after the publish: a new commit or run repeats this step only.
+ARG VERSION
+ARG COMMIT
+ARG REPOSITORY
+ARG RUN_ID
+RUN sh scripts/write-build-facts.sh /app/publish/build-facts.json
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
