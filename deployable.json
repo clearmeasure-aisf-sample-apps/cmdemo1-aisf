@@ -12,10 +12,17 @@
   },
   "environmentSettings": {
     "tdd": {
-      "GitHub__UseStub": "true"
+      "GitHub__UseStub": "true",
+      "Octopus__Enabled": "false"
     },
     "uat": {
-      "GitHub__UseStub": "true"
+      "GitHub__UseStub": "true",
+      "Octopus__Enabled": "false"
+    },
+    "prod": {
+      "GitHubApp__AppId": "5231590",
+      "GitHubApp__InstallationId": "169074569",
+      "Octopus__PollSeconds": "120"
     }
   },
   "urlSetting": "Factory__PublicBaseUrl",
@@ -25,8 +32,12 @@
       "env": "CursorAgent__ApiKey"
     },
     {
-      "name": "github-token",
-      "env": "GitHub__Token"
+      "name": "github-app-private-key",
+      "env": "GitHubApp__PrivateKey"
+    },
+    {
+      "name": "octopus-api-key",
+      "env": "Octopus__ApiKey"
     },
     {
       "name": "github-webhook-secret",

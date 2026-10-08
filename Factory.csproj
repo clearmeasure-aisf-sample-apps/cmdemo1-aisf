@@ -14,6 +14,8 @@
     <!-- The messaging framework the factory runs on. Aisf.Hosting names none (from 0.1.0-alpha.5);
          without a provider the host stops at startup with "No messaging provider is deployed with this host". -->
     <PackageReference Include="Aisf.Messaging.NServiceBus" Version="0.1.0-alpha.*" />
+    <!-- Where the factory follows a merged change: releases and deployments of the system's Octopus project. -->
+    <PackageReference Include="Aisf.Delivery.Octopus" Version="0.1.0-alpha.*" />
   </ItemGroup>
 
 </Project>
