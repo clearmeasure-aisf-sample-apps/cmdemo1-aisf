@@ -1,4 +1,5 @@
 using System.Text;
+using AISoftwareFactory3_21.Delivery.Octopus;
 using AISoftwareFactory3_21.Hosting;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -8,10 +9,13 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = AppContext.BaseDirectory,
 });
 
-// This system's factory: the GitHub board of cmdemo1-workorders, worked by Cursor cloud agents.
+// This system's factory: the GitHub board of cmdemo1-workorders, worked by Cursor cloud agents. The
+// system releases and deploys through Octopus Deploy, so that is where the factory follows a merged
+// change to production (the Octopus section of appsettings.json).
 builder.AddAisfFactory(factory => factory
     .UseGitHubWorkTracking()
-    .AddCursorWorker());
+    .AddCursorWorker()
+    .UseOctopusDelivery());
 
 var app = builder.Build();
 
