@@ -1,0 +1,16 @@
+@startuml
+!pragma layout smetana
+!include <C4/C4_Component>
+HIDE_STEREOTYPE()
+skinparam wrapWidth 900
+skinparam maxMessageSize 300
+skinparam nodesep 40
+skinparam ranksep 60
+UpdateElementStyle("component", $bgColor="#eceff1", $fontColor="#1c2b33", $borderColor="#455a64")
+UpdateElementStyle("system", $bgColor="#37474f", $fontColor="#ffffff", $borderColor="#263238")
+System(process, "dotnet Cmdemo1.Factory.dll", "The process the container image starts")
+Boundary(app, "aisf 1.0.19", "Assemblies of the application") {
+  Component(a_Cmdemo1_Factory, "Cmdemo1.Factory", $descr="Aisf.Delivery.Octopus 0.1.0-alpha.44\nAisf.Hosting 0.1.0-alpha.44\nAisf.Messaging.NServiceBus 0.1.0-alpha.44")
+}
+Rel(process, a_Cmdemo1_Factory, "starts")
+@enduml
