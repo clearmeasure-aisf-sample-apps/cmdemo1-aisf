@@ -1,0 +1,30 @@
+{
+  "deployable": "aisf",
+  "version": "1.0.20",
+  "generated": "2026-10-13T23:00:13Z",
+  "kind": "container image",
+  "process": "dotnet Cmdemo1.Factory.dll",
+  "entry": "Cmdemo1.Factory",
+  "assemblies": [
+    {
+      "name": "Cmdemo1.Factory",
+      "entry": true,
+      "references": [],
+      "packages": [
+        {
+          "name": "Aisf.Delivery.Octopus",
+          "version": "0.1.0-alpha.46"
+        },
+        {
+          "name": "Aisf.Hosting",
+          "version": "0.1.0-alpha.46"
+        },
+        {
+          "name": "Aisf.Messaging.NServiceBus",
+          "version": "0.1.0-alpha.46"
+        }
+      ]
+    }
+  ],
+  "truncated": false
+}
